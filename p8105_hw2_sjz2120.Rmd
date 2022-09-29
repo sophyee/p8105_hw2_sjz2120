@@ -16,11 +16,15 @@ library(tidyverse)
 ```{r, "Loading in Data"}
 subway_data = read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
 ```
-```{r, "Cleaning up and checking variable names"}
-names(subway_data)
+
+```{r, "Cleaning up variable names"}
+names(subway_data) 
 
 subway_data = janitor::clean_names(subway_data)
 names(subway_data)
+```
+```{r, "Selecting variables to keep, recoding entry variable"}
+select(subway_data, "line", "station_name", "station_latitude", "station_longitude", starts_with("route"), "entry", "vending", "entrance_type", "ada")
 ```
 
 
