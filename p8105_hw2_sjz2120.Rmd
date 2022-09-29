@@ -9,7 +9,10 @@ date: "2022-09-28"
 library(tidyverse)
 ```
 
-# Data Import and Cleaning
+
+# Problem 1
+
+## Data Import and Cleaning
 ```{r, "Loading in Data"}
 subway_data = read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
 ```
@@ -19,10 +22,6 @@ names(subway_data)
 subway_data = janitor::clean_names(subway_data)
 names(subway_data)
 ```
-
-
-# Problem 1
-
 
 
 
