@@ -109,18 +109,24 @@ prof_trash_data =
   rename(weight = weight_tons, volume = volume_cubic_yards) %>%
   drop_na(dumpster) %>%
   mutate(sports_balls = as.integer(round(sports_balls, digits = 0)))
-
-prof_trash_data
 ```
 
+In the next code chunk, we combine the data for Professor Trash Wheel and the Mr. Trash Wheel datasets to produce a single tidy dataset while keeping track of which Trash Wheel is which.
+
+```{r, "combining data for mr. and prof trash wheel"}
+mr_trash_data =
+  mutate(mr_trash_data, mr_prof = 0)
+
+prof_trash_data =
+  mutate(prof_trash_data, mr_prof = 1)
+
+both_trash_data = 
+  full_join(mr_trash_data, prof_trash_data)
+```
 
 Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in the resulting dataset, and give examples of key variables. For available data, what was the total weight of trash collected by Professor Trash Wheel? What was the total number of sports balls collected by Mr. Trash Wheel in 2020?
 
-*Mr. Trash Wheel Data*
-
-
-
-*Professor Trash Wheel Data*
+*Combined Dataframe for Mr. Trash Wheel and Professor Trash Wheel Data*
 
 
 
