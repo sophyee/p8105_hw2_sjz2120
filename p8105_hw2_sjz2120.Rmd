@@ -94,7 +94,8 @@ mr_trash_data =
              sheet = "Mr. Trash Wheel", range = "A2:N534") %>%
   janitor::clean_names() %>%
   rename(weight = weight_tons, volume = volume_cubic_yards) %>%
-  drop_na(dumpster)
+  drop_na(dumpster) %>%
+  mutate(sports_balls = round(., ?digits=0))
 
 mr_trash_data
 ```
@@ -109,6 +110,11 @@ Use a similar process to import, clean, and organize the data for Professor Tras
 
 Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in the resulting dataset, and give examples of key variables. For available data, what was the total weight of trash collected by Professor Trash Wheel? What was the total number of sports balls collected by Mr. Trash Wheel in 2020?
 
+*Mr. Trash Wheel Data*
+
+
+
+*Professor Trash Wheel Data*
 
 
 
