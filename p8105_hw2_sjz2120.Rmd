@@ -79,9 +79,7 @@ subway_data %>%
 
 
 # Problem 2
-This problem uses the Mr. Trash Wheel dataset, available as an Excel file on the course website.
-
-Read and clean the Mr. Trash Wheel sheet:
+*This problem uses the Mr. Trash Wheel dataset, available as an Excel file on the course website.Read and clean the Mr. Trash Wheel sheet:*
 
 * specify the sheet in the Excel file and to omit non-data entries (rows with notes / figures; columns containing notes) using arguments in read_excel
 * use reasonable variable names
@@ -99,7 +97,7 @@ mr_trash_data =
 ```
 
 
-Use a similar process to import, clean, and organize the data for Professor Trash Wheel, and combine this with the Mr. Trash Wheel dataset to produce a single tidy dataset. To keep track of which Trash Wheel is which, you may need to add an additional variable to both datasets before combining.
+*Use a similar process to import, clean, and organize the data for Professor Trash Wheel, and combine this with the Mr. Trash Wheel dataset to produce a single tidy dataset. To keep track of which Trash Wheel is which, you may need to add an additional variable to both datasets before combining.*
 
 ```{r, "loading and cleaning prof_trash_data"}
 prof_trash_data =
@@ -122,13 +120,26 @@ prof_trash_data =
 
 both_trash_data = 
   full_join(mr_trash_data, prof_trash_data)
+
+both_trash_data
 ```
 
-Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in the resulting dataset, and give examples of key variables. For available data, what was the total weight of trash collected by Professor Trash Wheel? What was the total number of sports balls collected by Mr. Trash Wheel in 2020?
+*Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in the resulting dataset, and give examples of key variables. For available data, what was the total weight of trash collected by Professor Trash Wheel? What was the total number of sports balls collected by Mr. Trash Wheel in 2020?*
 
-*Combined Dataframe for Mr. Trash Wheel and Professor Trash Wheel Data*
+### Describing the Joined Dataframe for Mr. Trash Wheel and Professor Trash Wheel Data
 
+The joined dataset for Mr. Trash Wheel and Professor Trash Wheels Data contains a total of **`r nrow(both_trash_data)` rows/observations** and **`r ncol(both_trash_data)` columns/variables** (including an extra newly created variable from the previous code chunk, which we used to keep track of which original dataset an observation came from).
 
+Key variables for the both_trash_data joined dataframe include: **`r colnames(both_trash_data)`**. All of these variables with the exception of `mr_prof` were from the original datasets. All of these variables were numeric types (specifically, doubles) with the exception of:
+
+* **1 integer variable:** `Sports Balls`
+* **1 character variable:** `Month`
+* **1 date/posix variable** `Date`
+
+**For available data, the total weight of trash collected by Professor Trash Wheel was `r both_trash_data %>% filter(mr_prof == 1) %>% pull(weight) %>% sum()` tons**.
+
+**The total number of sports balls collected by Mr. Trash Wheel in 2020 was `r both_trash_data %>% filter(mr_prof == 0, year == 2020) %>% pull(sports_balls) %>% sum()` sports balls**.
 
 
 # Problem 3
+
