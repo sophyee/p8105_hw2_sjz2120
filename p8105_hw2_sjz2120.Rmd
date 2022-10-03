@@ -78,7 +78,6 @@ subway_data %>%
 ```
 
 
-
 # Problem 2
 
 
