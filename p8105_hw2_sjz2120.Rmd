@@ -14,7 +14,8 @@ library(readxl)
 # Problem 1
 
 ## Data Import and Cleaning
-Below we import and clean data from `NYC_Transit_Subway_Entrance_And_Exit_Data.csv`. The process begins with data import, updates variable names, and selects the columns that will be used in later parts fo this problem. We update `entry` from `yes` / `no` to a logical variable. As part of data import, we specify that `Route` columns 8-11 should be character for consistency with 1-7.
+
+Below we import and clean data from `NYC_Transit_Subway_Entrance_And_Exit_Data.csv`. First we use import the data using `read_csv()`, update variable names, and select the columns that will be used in later in this homework. We update the variable `entry` from `yes` / `no` to a logical variable. As part of the data import, we specify that `Route` columns 8-11 should be character for consistency with columns 1-7.
 
 ```{r}
 subway_data =
@@ -24,27 +25,57 @@ subway_data =
   select(line, station_name, station_latitude, station_longitude, starts_with("route"),
          entry, exit_only, vending, entrance_type, ada) %>% 
   mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE ))
-
 ```
 
+We still need to "tidy" up subway_data a bit. For instance, route number and route should be variables, so we need to convert all of the `route` variables from wide to long format. This will be useful when focusing on specific routes, but may not be necessary when considering questions that focus on station-level variables. 
 
-**Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?**
+The following code chunk selects station name and line, and then uses `distinct()` from `dplyr` to select only unique/distinct rows from the data frame. As a result, the number of rows in this dataset will be equal to the number of unique stations. We see that there are 465 unique stations.
 
-The initial, unmodified subway_data dataset contains [] [] rows x [] columns. It contains [] the variables: [].
+```{r}
+subway_data %>%
+  select(station_name, line) %>%
+  distinct
+```
 
-So far for data cleaning, I have [].
+In the next code chunk we now filter according to ADA compliance as an initial step. This produces a dataframe where the number of rows is equal to the number of ADA compliant stations. We see that there are 84 ADA compliant stations.
 
-There are a total of 1868 rows x 19 columns in the resulting dataset which has been cleaned.
+```{r}
+subway_data %>% 
+  filter(ada == TRUE) %>% 
+  select(station_name, line) %>% 
+  distinct
+```
 
+To compute the proportion of station entrances / exits without vending that allow entrance, we first exclude station entrances that do not allow vending using `filter()`. Then, we focus on the `entry` variable using `pull()`. Since `entry` is a logical variable, we're able to get to the proportion we want by taking the mean of `entry` (since R will treat logical as numeric when taking the mean). We see that the proportion of station entrances / exits without vending that allow entrance is 0.3770492 or about 37.70% of station entrances / exits.
 
-Answer the following questions using these data:
+```{r}
+subway_data %>%
+  filter(vending == "NO") %>% 
+  pull(entry) %>% 
+  mean
+```
 
-* How many distinct stations are there? Note that stations are identified both by name and by line (e.g. 125th St 8th Avenue; 125st Broadway; 125st Lenox); the distinct function may be useful here.
-**
-* How many stations are ADA compliant?
-**
-* What proportion of station entrances / exits without vending allow entrance?
-**
+For the last part of Question 1, we need to write a code chunk to identify stations that serve the A train, and to assess how many of these are ADA compliant. First, we tidy the data by converting `route` from wide to long format. Next, we can use tools from previous parts of the question (filtering to focus on the A train, and on ADA compliance; selecting and using `distinct` to obtain dataframes with the required stations in rows). We see that 60 stations serve the A train, and 17 of these stations are ADA compliant.
+
+```{r}
+subway_data %>%
+    pivot_longer(
+    route1:route11,
+    names_to = "route_num",
+    values_to = "route") %>% 
+  filter(route == "A") %>% 
+  select(station_name, line) %>% 
+  distinct
+
+subway_data %>%
+    pivot_longer(
+    route1:route11,
+    names_to = "route_num",
+    values_to = "route") %>% 
+  filter(route == "A", ada == TRUE) %>% 
+  select(station_name, line) %>% 
+  distinct
+```
 
 
 
