@@ -7,32 +7,44 @@ date: "2022-09-28"
 # Setup
 ```{r}
 library(tidyverse)
+library(readxl)
 ```
 
 
 # Problem 1
 
 ## Data Import and Cleaning
-```{r, "Loading in Data"}
-subway_data = read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
-```
+Below we import and clean data from `NYC_Transit_Subway_Entrance_And_Exit_Data.csv`. The process begins with data import, updates variable names, and selects the columns that will be used in later parts fo this problem. We update `entry` from `yes` / `no` to a logical variable. As part of data import, we specify that `Route` columns 8-11 should be character for consistency with 1-7.
 
-```{r, "Cleaning up variable names"}
-names(subway_data) 
-
-subway_data = janitor::clean_names(subway_data)
-names(subway_data)
-```
-
-```{r, "Selecting variables to keep, recoding entry variable"}
-select(subway_data, line, station_name, station_latitude, station_longitude, starts_with("route"), entry, vending, entrance_type, ada) %>%
+```{r}
+subway_data =
+  read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv",
+           col_types = cols(Route8 = "c", Route9 = "c", Route10 = "c", Route11 = "c")) %>% 
+  janitor::clean_names() %>% 
+  select(line, station_name, station_latitude, station_longitude, starts_with("route"),
+         entry, exit_only, vending, entrance_type, ada) %>% 
   mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE ))
 
 ```
 
 
+**Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?**
+
+The initial, unmodified subway_data dataset contains [] [] rows x [] columns. It contains [] the variables: [].
+
+So far for data cleaning, I have [].
+
+There are a total of 1868 rows x 19 columns in the resulting dataset which has been cleaned.
 
 
+Answer the following questions using these data:
+
+* How many distinct stations are there? Note that stations are identified both by name and by line (e.g. 125th St 8th Avenue; 125st Broadway; 125st Lenox); the distinct function may be useful here.
+**
+* How many stations are ADA compliant?
+**
+* What proportion of station entrances / exits without vending allow entrance?
+**
 
 
 
