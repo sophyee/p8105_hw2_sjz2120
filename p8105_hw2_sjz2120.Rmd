@@ -128,10 +128,10 @@ both_trash_data
 ### Describing the Joined Dataframe for Mr. Trash Wheel and Professor Trash Wheel Data
 
 The joined dataset for Mr. Trash Wheel and Professor Trash Wheels Data contains a total of **`r nrow(both_trash_data)` rows/observations** and **`r ncol(both_trash_data)` columns/variables** (including an extra newly created variable from the previous code chunk, which we used to keep track of which original dataset an observation came from).
-
+git
 Key variables for the both_trash_data joined dataframe include: **`r colnames(both_trash_data)`**. All of these variables with the exception of `mr_prof` were from the original datasets; `mr_prof` is a variable to keep track of which dataset the observation is from (Mr. Trash Wheel = 0, Professor Trash Wheel = 1). All of these variables were numeric types (specifically, doubles) with the exception of:
 
-* **1 integer variable:** `Sports Balls`
+* **1 integer variable:** `Sports Balls` (only in the Mr. Trash Wheel dataset originally)
 * **1 character variable:** `Month`
 * **1 date/posix variable** `Date`
 
@@ -167,7 +167,10 @@ pols_data =
 snp_data =
   read_csv(file = "./data/fivethirtyeight_datasets/snp.csv") %>%
   janitor::clean_names()  %>%
-  separate(date, into = c("month", "day", "year"))
+  separate(date, into = c("month", "day", "year")) %>%
+  mutate(month = recode(month, "1" = "January", "2" = "February", "3" = "March", "4" = "April", "5" = "May", "6" = "June", "7" = "July", "8" = "August", "9" = "September", "10" = "October", "11" = "November", "12" = "December")) %>%
+  select(year, month, everything(), -day) %>%
+  arrange(year, month)
 
 snp_data
 ```
@@ -175,6 +178,15 @@ snp_data
 
 *Third, tidy the unemployment data so that it can be merged with the previous datasets. This process will involve switching from “wide” to “long” format; ensuring that key variables have the same name; and ensuring that key variables take the same values.*
 
+```{r}
+
+```
+
+
 *Join the datasets by merging snp into pols, and merging unemployment into the result.*
 
+
+
 *Write a short paragraph about these datasets. Explain briefly what each dataset contained, and describe the resulting dataset (e.g. give the dimension, range of years, and names of key variables).*
+
+
