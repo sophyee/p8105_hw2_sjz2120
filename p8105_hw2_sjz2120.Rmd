@@ -166,7 +166,8 @@ pols_data =
 ```{r}
 snp_data =
   read_csv(file = "./data/fivethirtyeight_datasets/snp.csv") %>%
-  janitor::clean_names()
+  janitor::clean_names()  %>%
+  separate(date, into = c("month", "day", "year"))
 
 snp_data
 ```
