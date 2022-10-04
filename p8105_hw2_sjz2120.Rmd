@@ -150,9 +150,14 @@ pols_data =
   read_csv(file = "./data/fivethirtyeight_datasets/pols-month.csv") %>%
   janitor::clean_names() %>%
   separate(mon, into = c("year", "month", "day")) %>%
-  replace(month, month.abb)
-
-pols_data
+  mutate(month = recode(month, "01" = "January", "02" = "February", "03" = "March", "04" = "April", "05" = "May", "06" = "June", "07" = "July", "08" = "August", "09" = "September", "10" = "October", "11" = "November", "12" = "December")) %>%
+  pivot_longer(
+    cols = c(prez_gop, prez_dem),
+    names_to = "president",
+    names_prefix = "prez_",
+    values_to = "party") %>%
+  filter(party != 0) %>%
+  select(-party, -day)
 ```
 
 
