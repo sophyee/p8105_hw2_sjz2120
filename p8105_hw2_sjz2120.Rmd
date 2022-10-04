@@ -163,6 +163,15 @@ pols_data =
 
 *Second, clean the data in snp.csv using a similar process to the above. For consistency across datasets, arrange according to year and month, and organize so that year and month are the leading columns.*
 
+```{r}
+snp_data =
+  read_csv(file = "./data/fivethirtyeight_datasets/snp.csv") %>%
+  janitor::clean_names()
+
+snp_data
+```
+
+
 *Third, tidy the unemployment data so that it can be merged with the previous datasets. This process will involve switching from “wide” to “long” format; ensuring that key variables have the same name; and ensuring that key variables take the same values.*
 
 *Join the datasets by merging snp into pols, and merging unemployment into the result.*
