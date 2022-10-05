@@ -149,8 +149,9 @@ Key variables for the both_trash_data joined dataframe include: **`r colnames(bo
 pols_data =
   read_csv(file = "./data/fivethirtyeight_datasets/pols-month.csv") %>%
   janitor::clean_names() %>%
-  separate(mon, into = c("year", "month", "day")) %>%
-  mutate(month = recode(month, "01" = "January", "02" = "February", "03" = "March", "04" = "April", "05" = "May", "06" = "June", "07" = "July", "08" = "August", "09" = "September", "10" = "October", "11" = "November", "12" = "December")) %>%
+  mutate(mon = lubridate::ymd(mon)) %>%
+  separate(mon, into = c("year", "month", "day"), sep = "-") %>%
+  mutate(month = lubridate::month(as.numeric(month), label = TRUE, abbr = FALSE)) %>%
   pivot_longer(
     cols = c(prez_gop, prez_dem),
     names_to = "president",
@@ -158,6 +159,8 @@ pols_data =
     values_to = "party") %>%
   filter(party != 0) %>%
   select(-party, -day)
+
+pols_data
 ```
 
 
@@ -166,11 +169,16 @@ pols_data =
 ```{r}
 snp_data =
   read_csv(file = "./data/fivethirtyeight_datasets/snp.csv") %>%
-  janitor::clean_names()  %>%
-  separate(date, into = c("month", "day", "year")) %>%
-  mutate(month = recode(month, "1" = "January", "2" = "February", "3" = "March", "4" = "April", "5" = "May", "6" = "June", "7" = "July", "8" = "August", "9" = "September", "10" = "October", "11" = "November", "12" = "December")) %>%
-  select(year, month, everything(), -day) %>%
+  janitor::clean_names() %>%
+  separate(date, into = c("month", "day", "year"), sep = "/") %>%
+  mutate(year = case_when(
+    year < 40 ~ paste0("20", year), 
+    year >= 40 ~ paste0("19", year)
+  )) %>%
+  mutate(month = lubridate::month(as.numeric(month), label = TRUE, abbr = FALSE)) %>%
+  select(year, everything(), -day) %>%
   arrange(year, month)
+
 
 snp_data
 ```
@@ -179,13 +187,18 @@ snp_data
 *Third, tidy the unemployment data so that it can be merged with the previous datasets. This process will involve switching from “wide” to “long” format; ensuring that key variables have the same name; and ensuring that key variables take the same values.*
 
 ```{r}
+unemploy_data =
+  read_csv(file = "./data/fivethirtyeight_datasets/unemployment.csv")
 
+unemploy_data
 ```
 
 
 *Join the datasets by merging snp into pols, and merging unemployment into the result.*
 
+```{r}
 
+```
 
 *Write a short paragraph about these datasets. Explain briefly what each dataset contained, and describe the resulting dataset (e.g. give the dimension, range of years, and names of key variables).*
 
