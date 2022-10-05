@@ -190,6 +190,12 @@ snp_data
 unemploy_data =
   read_csv(file = "./data/fivethirtyeight_datasets/unemployment.csv") %>%
   janitor::clean_names() %>%
+  pivot_longer(jan:dec,
+    names_to = "month",
+    values_to = "unemployment") %>%
+  mutate(year = as.character(year)) %>%
+  mutate(month = recode(month, "jan" = "1", "feb" = "2", "mar" = "3", "apr" = "4", "may" = "5", "jun" = "6", "jul" = "7", "aug" = "8", "sep" = "9", "oct" = "10", "nov" = "11", "dec" = "12")) %>%
+  mutate(month = lubridate::month(as.numeric(month), label = TRUE, abbr = FALSE)) %>%
   arrange(year, month)
 
 unemploy_data
@@ -199,6 +205,11 @@ unemploy_data
 *Join the datasets by merging snp into pols, and merging unemployment into the result.*
 
 ```{r}
+pols_snp_df =
+  full_join(pols_data, snp_data)
+
+pols_snp_unemploy_df =
+  full_join(pols_snp_df, unemploy_data)
 
 ```
 
