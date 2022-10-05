@@ -188,7 +188,9 @@ snp_data
 
 ```{r}
 unemploy_data =
-  read_csv(file = "./data/fivethirtyeight_datasets/unemployment.csv")
+  read_csv(file = "./data/fivethirtyeight_datasets/unemployment.csv") %>%
+  janitor::clean_names() %>%
+  arrange(year, month)
 
 unemploy_data
 ```
