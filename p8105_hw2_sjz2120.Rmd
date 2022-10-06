@@ -133,11 +133,12 @@ Key variables for the both_trash_data joined dataframe include: **`r colnames(bo
 
 * **1 integer variable:** `Sports Balls` (only in the Mr. Trash Wheel dataset originally)
 * **1 character variable:** `Month`
-* **1 date/posix variable** `Date`
+* **1 date/posix variable:** `Date`
 
 **For available data, the total weight of trash collected by Professor Trash Wheel was `r both_trash_data %>% filter(mr_prof == 1) %>% pull(weight) %>% sum()` tons**.
 
 **The total number of sports balls collected by Mr. Trash Wheel in 2020 was `r both_trash_data %>% filter(mr_prof == 0, year == 2020) %>% pull(sports_balls) %>% sum()` sports balls**.
+
 
 
 # Problem 3
@@ -159,8 +160,6 @@ pols_data =
     values_to = "party") %>%
   filter(party != 0) %>%
   select(-party, -day)
-
-pols_data
 ```
 
 
@@ -178,9 +177,6 @@ snp_data =
   mutate(month = lubridate::month(as.numeric(month), label = TRUE, abbr = FALSE)) %>%
   select(year, everything(), -day) %>%
   arrange(year, month)
-
-
-snp_data
 ```
 
 
@@ -198,7 +194,6 @@ unemploy_data =
   mutate(month = lubridate::month(as.numeric(month), label = TRUE, abbr = FALSE)) %>%
   arrange(year, month)
 
-unemploy_data
 ```
 
 
@@ -217,7 +212,7 @@ merged_df =
 
 The original Pols-Month dataset contains 822 observations/rows of 9 variables/columns related to the number of national politicians who are democratic or republican at any given time.
 
-To clean/tidy the dataset, we separated out the day, month, and year into new variables from the original `mon` (date) variable; we only kept the new `month` and `year` variables. We also combined the `prez_gop` and `prez_dom` variables into a new variable `president` which contains values on what political party the president at that date was associated with. After cleaning/tidying, the dataset contains a total of **`r nrow(pols_data)` rows/observations** and **`r ncol(pols_data)` columns/variables**. Key variables in the cleaned/tidied `pols_data` dataset include: **`r colnames(pols_data)`**.
+To clean/tidy the dataset, we separated out the day, month, and year into new variables from the original `mon` (date) variable; we only kept the new `month` and `year` variables. We also combined the `prez_gop` and `prez_dom` variables into a new variable **`president` which contains values on what political party the president at that date was associated with**. After cleaning/tidying, the dataset contains a total of **`r nrow(pols_data)` rows/observations** and **`r ncol(pols_data)` columns/variables**. Key variables in the cleaned/tidied `pols_data` dataset include: **`r colnames(pols_data)`**.
 
 
 ### Describing the SNP (snp_data) Dataset
