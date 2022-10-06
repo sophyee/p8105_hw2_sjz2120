@@ -245,7 +245,9 @@ To clean/tidy the dataset, we used `pivot_longer` to create a new variable  call
 
 We merged the three datasets by the `Year` and `Month` variables, first left-joining `pols_data` and `snp_data`, and then left-joining that with `unemploy_data`.
 
-The resulting merged dataset `merged_df` contains a total of **`r nrow(merged_df)` rows/observations** and **`r ncol(merged_df)` columns/variables**. Key in the cleaned/tidied `merged_df` dataset include: **`r colnames(merged_df)`**; a description of each variable is listed below:
+The resulting merged dataset `merged_df` contains a total of **`r nrow(merged_df)` rows/observations** and **`r ncol(merged_df)` columns/variables**. Key variables in the cleaned/tidied `merged_df` dataset include: **`r colnames(merged_df)`**.
+
+A description of each variable is listed below:
 
 * `year` and `month` of each observation (ranging from 1947 to 2015)
 * `president`: whether the president on the date of the observation was Democratic or Republican 
