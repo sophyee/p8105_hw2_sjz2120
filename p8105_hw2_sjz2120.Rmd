@@ -128,7 +128,7 @@ both_trash_data
 ### Describing the Joined Dataframe for Mr. Trash Wheel and Professor Trash Wheel Data
 
 The joined dataset for Mr. Trash Wheel and Professor Trash Wheels Data contains a total of **`r nrow(both_trash_data)` rows/observations** and **`r ncol(both_trash_data)` columns/variables** (including an extra newly created variable from the previous code chunk, which we used to keep track of which original dataset an observation came from).
-git
+
 Key variables for the both_trash_data joined dataframe include: **`r colnames(both_trash_data)`**. All of these variables with the exception of `mr_prof` were from the original datasets; `mr_prof` is a variable to keep track of which dataset the observation is from (Mr. Trash Wheel = 0, Professor Trash Wheel = 1). All of these variables were numeric types (specifically, doubles) with the exception of:
 
 * **1 integer variable:** `Sports Balls` (only in the Mr. Trash Wheel dataset originally)
@@ -214,5 +214,33 @@ pols_snp_unemploy_df =
 ```
 
 *Write a short paragraph about these datasets. Explain briefly what each dataset contained, and describe the resulting dataset (e.g. give the dimension, range of years, and names of key variables).*
+
+### Describing the Pols-Month (pols_data) Dataset
+
+The original Pols-Month dataset contains 822 observations/rows of 9 variables/columns related to the number of national politicians who are democratic or republican at any given time.
+
+To clean/tidy the dataset, we separated out the day, month, and year into new variables from the original `mon` (date) variable; we only kept the new `month` and `year` variables. We also combined the `prez_gop` and `prez_dom` variables into a new variable `president` which contains values on what political party the president at that date was associated with. After cleaning/tidying, the dataset contains a total of **`r nrow(pols_data)` rows/observations** and **`r ncol(pols_data)` columns/variables**. Key variables in the cleaned/tidied `pols_data` dataset include: **`r colnames(pols_data)`**.
+
+
+### Describing the SNP (snp_data) Dataset
+
+The original SNP dataset contains 787 observations/rows of 2 variables/columns related to Standard & Poor’s stock market index (S&P), often used as a representative measure of stock market as a whole. The original, untouched dataset contains two variables: `date` (the date of the observation including year, month, and day) and `close` (snp closing values).
+
+To clean/tidy the dataset, we separated out the day, month, and year into new variables from the original `date` variable; we only kept the new `month` and `year` variables, and had to update the values of the `year` variable to contain the 4-digit year (the original data only included 2-digit year abbreviations for dates which spanned from 1950-2015). After cleaning/tidying, the `snp_data` dataset contains a total of **`r nrow(snp_data)` rows/observations** and **`r ncol(snp_data)` columns/variables**. Key variables in the cleaned/tidied `snp_data` dataset include: **`r colnames(snp_data)`**.
+
+
+
+### Describing the Unemployment (unemploy_data) Dataset
+
+The original Unemployment dataset contains 68 observations/rows of 13 variables/columns; the 13 variables included one variable for `Year` of the observation, and 12 variables for each month's unemployment rate.
+
+To clean/tidy the dataset, we used `pivot_longer` to create a new variable  called `month` which contained the month of each observation, and another new variable called `unemployment` which stores the unemployment rate data for each observation. After cleaning/tidying, the dataset contains a total of **`r nrow(unemploy_data)` rows/observations** and **`r ncol(unemploy_data)` columns/variables**. Key variables in the cleaned/tidied `unemploy_data` dataset include: **`r colnames(unemploy_data)`**.
+
+
+### Describing the Merged Dataset with Pols-Month/SNP/Unemployment Data (pols_snp_unemploy_df)
+
+We merged the three datasets by the `Year` and `Month` variables, first left joining `pols_data` and `snp_data`, and then left-joining that with `unemploy_data`.
+
+The resulting merged dataset `pols_snp_unemploy_df` contains a total of **`r nrow(pols_snp_unemploy_df)` rows/observations** and **`r ncol(pols_snp_unemploy_df)` columns/variables**. Key variables in the cleaned/tidied `pols_snp_unemploy_df` dataset include: **`r colnames(pols_snp_unemploy_df)`**.
 
 
